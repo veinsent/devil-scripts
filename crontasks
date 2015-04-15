@@ -1,0 +1,8 @@
+# min hour day month dow cmd
+  10  21   */7 *     *   /root/backup.bash
+*/55  *    *   *     *   /shm/mnt/www/html/lightsquid/lightparser.pl today
+  0   */4  *   *     *   /usr/bin/ntpdate time.nist.gov > /dev/null
+*/5 * * * * if [ "x" = "x`/sbin/ifconfig | /bin/egrep '^tap0?'`" ]; then `/bin/date "+\%Y-\%m-\%d \%H:\%M:\%S; inet down :((">>/shm/mnt/vpn_down.log`; `/etc/init.d/openvpn restart >> /shm/mnt/vpn_down.log`; fi
+*/3 * * * * if [ "x" = "x`/bin/netstat -na | /bin/egrep '0.0.0.0:2604'`" ]; then `/bin/date "+\%Y-\%m-\%d \%H:\%M:\%S; ospfd down :((">>/shm/mnt/ospfd_down.log`; `/etc/init.d/ospfd restart >> /shm/mnt/ospfd_down.log`; fi
+*/2 * * * * if [ "x" = "x`/sbin/ifconfig | /bin/egrep '^ppp0?'`" ]; then `/bin/date "+\%Y-\%m-\%d \%H:\%M:\%S; inet down :((">>/shm/mnt/inet_down.log`; `/usr/sbin/pppoe-start >> /shm/mnt/inet_down.log`; fi
+0 0 */10 * * /usr/sbin/squid -k rotate
